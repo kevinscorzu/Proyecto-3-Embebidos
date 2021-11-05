@@ -59,12 +59,14 @@ export class AppComponent implements OnInit {
         light4.x = 450;
         light4.y = 100;
         light4.id = 4;
+        light4.on = true;
         this.lights.push(light4)
     
         var light5 = new Circle(this.ctx);
         light5.x = 550;
         light5.y = 100;
         light5.id = 5;
+        light5.on = true;
         this.lights.push(light5)
     
         for(let light of this.lights){
