@@ -5,12 +5,16 @@ export class Circle {
     public r = 20;
     public on = false;
     public id = -1;
+    public waiting = 0;
+    public semaphore = -1;
     public firstTime = true;
 
   
     constructor(private ctx: CanvasRenderingContext2D) {}
   
-    
+    asignWaiting(){
+
+    }
   
      draw() {
       this.ctx.beginPath();
@@ -21,14 +25,52 @@ export class Circle {
         this.ctx.stroke()
         return;
       }
+     
+      else if (this.semaphore != 0){
+        
+        if (this.semaphore == 1){
+          if (this.on == true){
+            this.ctx.fillStyle =  'green';
+            this.ctx.fill();
+            return;
+          }
+          
+          else {
+            this.ctx.fillStyle =  'grey';
+            this.ctx.fill();
+            return;
+          }
+        }
+        else if (this.semaphore == 2){
+          if (this.on == true){
+            this.ctx.fillStyle =  'red';
+            this.ctx.fill();
+            return;
+          }
+          
+          else {
+            this.ctx.fillStyle =  'grey';
+            this.ctx.fill();
+            return;
+          }
+        }
+        
+        
+      }
+
+      else if (this.waiting){
+        this.ctx.fillStyle =  'yellow';
+        this.ctx.fill();
+        return;
+      }
       else if (this.on==true){
-        this.ctx.fillStyle =  'green';
+        this.ctx.fillStyle =  'grey';
         this.ctx.fill();
         return;
       }
       
       else {
-        this.ctx.fillStyle =  'red';
+        this.ctx.fillStyle =  'blue';
         this.ctx.fill();
       }
       }
