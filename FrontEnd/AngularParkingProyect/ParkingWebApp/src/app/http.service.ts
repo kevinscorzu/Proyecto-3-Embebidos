@@ -8,7 +8,7 @@ export class HttpService {
 
   constructor(private http: HttpClient) {
   }
-  server = 'http://8b93-186-176-104-13.ngrok.io';
+  server = 'http://192.168.1.101:9090';
 
   getStates() {
     return this.http.get(this.server + '/Api/ParkingState');
