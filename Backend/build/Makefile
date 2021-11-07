@@ -86,7 +86,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-pc-linux-gnu
-host_triplet = arm-poky-linux-gnueabim
+host_triplet = x86_64-pc-linux-gnu
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -166,10 +166,9 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/build-aux/config.sub \
 	$(top_srcdir)/build-aux/install-sh \
 	$(top_srcdir)/build-aux/ltmain.sh \
-	$(top_srcdir)/build-aux/missing build-aux/ar-lib \
+	$(top_srcdir)/build-aux/missing COPYING build-aux/ar-lib \
 	build-aux/compile build-aux/config.guess build-aux/config.sub \
-	build-aux/depcomp build-aux/install-sh build-aux/ltmain.sh \
-	build-aux/missing
+	build-aux/install-sh build-aux/ltmain.sh build-aux/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -215,15 +214,15 @@ distcleancheck_listfiles = find . -type f -print
 ACLOCAL = ${SHELL} /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build-aux/missing aclocal-1.16
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
-AR = arm-poky-linux-gnueabi-ar
+AR = ar
 AUTOCONF = ${SHELL} /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build-aux/missing autoconf
 AUTOHEADER = ${SHELL} /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build-aux/missing autoheader
 AUTOMAKE = ${SHELL} /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build-aux/missing automake-1.16
 AWK = gawk
-CC = arm-poky-linux-gnueabi-gcc  -mthumb -mfpu=neon-vfpv4 -mfloat-abi=hard -mcpu=cortex-a7 -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/opt/poky/3.1.2/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi
+CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS =  -O2 -pipe -g -feliminate-unused-debug-types 
-CPP = arm-poky-linux-gnueabi-gcc -E  -mthumb -mfpu=neon-vfpv4 -mfloat-abi=hard -mcpu=cortex-a7 -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/opt/poky/3.1.2/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi
+CFLAGS = -g -O2
+CPP = gcc -E
 CPPFLAGS = 
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -243,8 +242,8 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-LD = arm-poky-linux-gnueabi-ld  --sysroot=/opt/poky/3.1.2/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi
-LDFLAGS = -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now
+LD = /usr/bin/ld -m elf_x86_64
+LDFLAGS = 
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
@@ -255,9 +254,9 @@ LT_SYS_LIBRARY_PATH =
 MAKEINFO = ${SHELL} /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build-aux/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /usr/bin/mkdir -p
-NM = arm-poky-linux-gnueabi-nm
+NM = /usr/bin/nm -B
 NMEDIT = 
-OBJDUMP = arm-poky-linux-gnueabi-objdump
+OBJDUMP = objdump
 OBJEXT = o
 OTOOL = 
 OTOOL64 = 
@@ -269,18 +268,18 @@ PACKAGE_TARNAME = parking
 PACKAGE_URL = 
 PACKAGE_VERSION = 1.0
 PATH_SEPARATOR = :
-RANLIB = arm-poky-linux-gnueabi-ranlib
-SED = sed
+RANLIB = ranlib
+SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
-STRIP = arm-poky-linux-gnueabi-strip
+STRIP = strip
 VERSION = 1.0
 abs_builddir = /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build
 abs_srcdir = /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build/..
 abs_top_builddir = /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build
 abs_top_srcdir = /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build/..
-ac_ct_AR = 
-ac_ct_CC = 
+ac_ct_AR = ar
+ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
 am__include = include
 am__leading_dot = .
@@ -299,11 +298,11 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = arm-poky-linux-gnueabim
-host_alias = arm-poky-linux-gnueabim
-host_cpu = arm
-host_os = linux-gnueabim
-host_vendor = poky
+host = x86_64-pc-linux-gnu
+host_alias = 
+host_cpu = x86_64
+host_os = linux-gnu
+host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info

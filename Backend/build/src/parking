@@ -31,7 +31,7 @@ DUALCASE=1; export DUALCASE # for MKS sh
 # if CDPATH is set.
 (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
 
-relink_command="(cd /home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build/src; { test -z \"\${LIBRARY_PATH+set}\" || unset LIBRARY_PATH || { LIBRARY_PATH=; export LIBRARY_PATH; }; }; { test -z \"\${COMPILER_PATH+set}\" || unset COMPILER_PATH || { COMPILER_PATH=; export COMPILER_PATH; }; }; { test -z \"\${GCC_EXEC_PREFIX+set}\" || unset GCC_EXEC_PREFIX || { GCC_EXEC_PREFIX=; export GCC_EXEC_PREFIX; }; }; { test -z \"\${LD_RUN_PATH+set}\" || unset LD_RUN_PATH || { LD_RUN_PATH=; export LD_RUN_PATH; }; }; { test -z \"\${LD_LIBRARY_PATH+set}\" || unset LD_LIBRARY_PATH || { LD_LIBRARY_PATH=; export LD_LIBRARY_PATH; }; }; PATH=/opt/poky/3.1.2/sysroots/x86_64-pokysdk-linux/usr/bin:/opt/poky/3.1.2/sysroots/x86_64-pokysdk-linux/usr/sbin:/opt/poky/3.1.2/sysroots/x86_64-pokysdk-linux/bin:/opt/poky/3.1.2/sysroots/x86_64-pokysdk-linux/sbin:/opt/poky/3.1.2/sysroots/x86_64-pokysdk-linux/usr/bin/../x86_64-pokysdk-linux/bin:/opt/poky/3.1.2/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi:/opt/poky/3.1.2/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-musl:/home/leahyvasquez/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin; export PATH; arm-poky-linux-gnueabi-gcc -mthumb -mfpu=neon-vfpv4 -mfloat-abi=hard -mcpu=cortex-a7 -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/opt/poky/3.1.2/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z -Wl,relro -Wl,-z -Wl,now -o \$progdir/\$file main.o  ../lib/.libs/libparking.so -Wl,-rpath -Wl,/home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build/lib/.libs -Wl,-rpath -Wl,/home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build/usr/lib)"
+relink_command=""
 
 # This environment variable determines our operation mode.
 if test "$libtool_install_magic" = "%%%MAGIC variable%%%"; then
@@ -75,9 +75,9 @@ func_parse_lt_options ()
     case "$lt_opt" in
     --lt-debug) lt_option_debug=1 ;;
     --lt-dump-script)
-        lt_dump_D=`$ECHO "X$lt_script_arg0" | sed -e 's/^X//' -e 's%/[^/]*$%%'`
+        lt_dump_D=`$ECHO "X$lt_script_arg0" | /usr/bin/sed -e 's/^X//' -e 's%/[^/]*$%%'`
         test "X$lt_dump_D" = "X$lt_script_arg0" && lt_dump_D=.
-        lt_dump_F=`$ECHO "X$lt_script_arg0" | sed -e 's/^X//' -e 's%^.*/%%'`
+        lt_dump_F=`$ECHO "X$lt_script_arg0" | /usr/bin/sed -e 's/^X//' -e 's%^.*/%%'`
         cat "$lt_dump_D/$lt_dump_F"
         exit 0
       ;;
@@ -143,13 +143,13 @@ func_exec_program ()
   func_parse_lt_options "$0" ${1+"$@"}
 
   # Find the directory that this script lives in.
-  thisdir=`$ECHO "$file" | sed 's%/[^/]*$%%'`
+  thisdir=`$ECHO "$file" | /usr/bin/sed 's%/[^/]*$%%'`
   test "x$thisdir" = "x$file" && thisdir=.
 
   # Follow symbolic links until we get to the real thisdir.
-  file=`ls -ld "$file" | sed -n 's/.*-> //p'`
+  file=`ls -ld "$file" | /usr/bin/sed -n 's/.*-> //p'`
   while test -n "$file"; do
-    destdir=`$ECHO "$file" | sed 's%/[^/]*$%%'`
+    destdir=`$ECHO "$file" | /usr/bin/sed 's%/[^/]*$%%'`
 
     # If there was a directory component, then change thisdir.
     if test "x$destdir" != "x$file"; then
@@ -159,8 +159,8 @@ func_exec_program ()
       esac
     fi
 
-    file=`$ECHO "$file" | sed 's%^.*/%%'`
-    file=`ls -ld "$thisdir/$file" | sed -n 's/.*-> //p'`
+    file=`$ECHO "$file" | /usr/bin/sed 's%^.*/%%'`
+    file=`ls -ld "$thisdir/$file" | /usr/bin/sed -n 's/.*-> //p'`
   done
 
   # Usually 'no', except on cygwin/mingw when embedded into
@@ -173,7 +173,7 @@ func_exec_program ()
     fi
     # remove .libs from thisdir
     case "$thisdir" in
-    *[\\/].libs ) thisdir=`$ECHO "$thisdir" | sed 's%[\\/][^\\/]*$%%'` ;;
+    *[\\/].libs ) thisdir=`$ECHO "$thisdir" | /usr/bin/sed 's%[\\/][^\\/]*$%%'` ;;
     .libs )   thisdir=. ;;
     esac
   fi
@@ -182,38 +182,20 @@ func_exec_program ()
   absdir=`cd "$thisdir" && pwd`
   test -n "$absdir" && thisdir="$absdir"
 
-  program=lt-'parking'
+  program='parking'
   progdir="$thisdir/.libs"
 
-  if test ! -f "$progdir/$program" ||
-     { file=`ls -1dt "$progdir/$program" "$progdir/../$program" 2>/dev/null | sed 1q`; \
-       test "X$file" != "X$progdir/$program"; }; then
-
-    file="$$-$program"
-
-    if test ! -d "$progdir"; then
-      mkdir "$progdir"
-    else
-      rm -f "$progdir/$file"
-    fi
-
-    # relink executable if necessary
-    if test -n "$relink_command"; then
-      if relink_command_output=`eval $relink_command 2>&1`; then :
-      else
-	$ECHO "$relink_command_output" >&2
-	rm -f "$progdir/$file"
-	exit 1
-      fi
-    fi
-
-    mv -f "$progdir/$file" "$progdir/$program" 2>/dev/null ||
-    { rm -f "$progdir/$program";
-      mv -f "$progdir/$file" "$progdir/$program"; }
-    rm -f "$progdir/$file"
-  fi
 
   if test -f "$progdir/$program"; then
+    # Add our own library path to LD_LIBRARY_PATH
+    LD_LIBRARY_PATH="/home/leahyvasquez/Documents/TEC/II-SEM-21/SistemasEmbebidos/Proyectos/Proyecto3/Proyecto-3-Embebidos/Backend/build/lib/.libs:$LD_LIBRARY_PATH"
+
+    # Some systems cannot cope with colon-terminated LD_LIBRARY_PATH
+    # The second colon is a workaround for a bug in BeOS R4 sed
+    LD_LIBRARY_PATH=`$ECHO "$LD_LIBRARY_PATH" | /usr/bin/sed 's/::*$//'`
+
+    export LD_LIBRARY_PATH
+
     if test "$libtool_execute_magic" != "%%%MAGIC variable%%%"; then
       # Run the actual program with our arguments.
       func_exec_program ${1+"$@"}

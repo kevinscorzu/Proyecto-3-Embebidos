@@ -34,6 +34,7 @@ void disablePins();
 void *readSensors(void *args);
 void readSensorsAux();
 void readSensorsAux2();
+void readSensorsAux3(int sensorGPIO);
 void flushUart();
 
 int sensor1State = 1;
@@ -54,12 +55,6 @@ int assignedSpace = 0;
 void startServer()
 {
     enablePins();
-
-    printf("Flushing UART\n");
-
-    flushUart();
-
-    printf("UART flushed\n");
 
     semStop = sem_open("semStop", O_CREAT, 0644, 0);
 
@@ -278,42 +273,44 @@ void *readSensors(void *args)
 
         pthread_mutex_unlock(&stopMutex);
 
-        pthread_mutex_lock(&sensorMutex);
-
         readSensorsAux();
 
         carLeave = 0;
 
         readValue = digitalRead(sensor1GPIO);
 
-        if (readValue == 1 && sensor1State == 0)
+        if (readValue == 1)
         {
             sensor1State = 1;
             carLeave = 1;
+            readSensorsAux3(sensor1GPIO);
         }
 
         readValue = digitalRead(sensor2GPIO);
 
-        if (readValue == 1 && sensor2State == 0)
+        if (readValue == 1)
         {
             sensor2State = 1;
             carLeave = 1;
+            readSensorsAux3(sensor2GPIO);
         }
 
         readValue = digitalRead(sensor3GPIO);
 
-        if (readValue == 1 && sensor3State == 0)
+        if (readValue == 1)
         {
             sensor3State = 1;
             carLeave = 1;
+            readSensorsAux3(sensor3GPIO);
         }
 
         readValue = digitalRead(sensor4GPIO);
 
-        if (readValue == 1 && sensor4State == 0)
+        if (readValue == 1)
         {
             sensor4State = 1;
             carLeave = 1;
+            readSensorsAux3(sensor4GPIO);
         }
 
         if (carLeave == 1)
@@ -340,13 +337,18 @@ void readSensorsAux()
 {
     int readValue = 0;
 
+    flushUart();
+
     uartSend(0x55);
+
+    usleep(100000);
 
     readValue = uartReceive();
 
-    if (readValue < 80 && readValue != 0)
-    {
+    pthread_mutex_lock(&sensorMutex);
 
+    if (readValue < 70 && readValue != 0)
+    {
         if (redLEDState == 1)
         {
             return;
@@ -409,24 +411,28 @@ void readSensorsAux2()
             break;
         }
 
-        if (readValue == 0)
+        if (readValue == 1)
         {
             switch (assignedSpace)
             {
             case 1:
                 sensor1State = 0;
+                readSensorsAux3(sensor1GPIO);
                 break;
 
             case 2:
                 sensor2State = 0;
+                readSensorsAux3(sensor2GPIO);
                 break;
 
             case 3:
                 sensor3State = 0;
+                readSensorsAux3(sensor3GPIO);
                 break;
 
             case 4:
                 sensor4State = 0;
+                readSensorsAux3(sensor4GPIO);
                 break;
             }
 
@@ -441,8 +447,6 @@ void readSensorsAux2()
                 redLEDState = 1;
             }
 
-            printf("Llego el carro\n");
-
             break;
         }
 
@@ -451,7 +455,25 @@ void readSensorsAux2()
 
     pthread_mutex_unlock(&sensorMutex);
 
-    flushUart();
+    return;
+}
+
+/**
+ * Auxiliary function
+ */
+void readSensorsAux3(int sensorGPIO)
+{
+    int readValue = 0;
+
+    while (1)
+    {
+        readValue = digitalRead(sensorGPIO);
+
+        if (readValue == 0)
+        {
+            break;
+        }
+    }
 
     return;
 }
@@ -465,13 +487,15 @@ void flushUart()
     {
         uartSend(0x55);
 
+        usleep(100000);
+
         readValue = uartReceive();
 
         if (90 < readValue && readValue < 150)
         {
             break;
         }
-        else if (tries == 10)
+        else if (tries == 5)
         {
             restartUart();
             tries = 0;
